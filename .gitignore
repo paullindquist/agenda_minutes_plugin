@@ -1,0 +1,45 @@
+# Numerous always-ignore extensions #
+#####################################
+*.diff
+*.err
+*.orig
+*.rej
+*.swn
+*.swo
+*.swp
+*.vi
+*~
+*.sass-cache
+*.grunt
+*.tmp
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+# Icon?
+ehthumbs.db
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+*.esproj
+nbproject
+
+# Node #
+#####################
+node_modules
+
+# Bower #
+#####################
+bower_components
+
+
+# Vim files to ignore #
+#####################
+.VimballRecord
+.netrwhist
