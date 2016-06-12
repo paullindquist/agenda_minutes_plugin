@@ -119,6 +119,14 @@ class Agendas {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-agendas-public.php';
 
+		/*
+		 * Mustache is used for templating
+		 *
+		 */
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/mustache/src/Mustache/AutoLoader.php';
+		
+
 		$this->loader = new Agendas_Loader();
 
 	}
@@ -153,6 +161,7 @@ class Agendas {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_menu_page' );
 
 	}
 

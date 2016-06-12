@@ -35,7 +35,7 @@ class Agendas_Activator {
 		$table_name = $wpdb->prefix . 'agendas';
 		$sql = "CREATE TABLE $table_name (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			agenda_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			agenda smallint(5) NOT NULL,
 			minutes smallint(5) NOT NULL,
 			UNIQUE KEY id (id)
