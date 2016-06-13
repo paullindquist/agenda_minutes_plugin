@@ -1,0 +1,30 @@
+<table class="table table-striped table-bordered"> 
+		<thead>
+			<tr>
+				<th>
+					Date:	
+				</th>
+				<th>
+					Agenda
+				</th>
+				<th>
+					Minutes 
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#result}}
+			<tr>
+				<td>
+					{{ display_date }}
+				</td>
+				<td>
+				 {{#agenda_file }}<a href="/wp-content/uploads/{{.}}" target="blank"/>Download agenda</a>{{/agenda_file }}
+				</td>
+				<td>
+				 {{#minutes_file }}<a href="/wp-content/uploads/{{.}}" target="blank"/>Download minutes</a>{{/minutes_file }}
+				</td>
+			</tr>
+		{{/result}}
+		</tbody>
+</table>

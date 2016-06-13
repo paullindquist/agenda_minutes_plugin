@@ -176,8 +176,7 @@ class Agendas {
 
 		$plugin_public = new Agendas_Public( $this->get_agendas(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		add_shortcode( 'agenda_list', array( $plugin_public, 'do_shortcode' ) );
 
 	}
 

@@ -55,49 +55,33 @@ class Agendas_Public {
 	}
 
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
+	 * Write out shorcode contents
 	 *
-	 * @since    1.0.0
+	 * @since    1.0.2
 	 */
-	public function enqueue_styles() {
+	public function do_shortcode() {
+		Mustache_Autoloader::register();
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Agendas_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Agendas_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		$agendas_sql = 'SELECT wp_agendas.id AS agenda_id, DATE_FORMAT(agenda_date, \'%b %d, %Y\') as display_date, agenda_postmeta.meta_value AS agenda_file, minutes_postmeta.meta_value AS minutes_file FROM wp_agendas ';
+		$agendas_sql .= 'LEFT OUTER JOIN wp_posts AS agenda_posts ON agenda_posts.id = wp_agendas.agenda ';
+		$agendas_sql .= 'LEFT OUTER JOIN wp_posts AS minutes_posts ON minutes_posts.id = wp_agendas.minutes ';
+		$agendas_sql .= 'LEFT OUTER JOIN wp_postmeta AS agenda_postmeta ON agenda_postmeta.post_id = agenda_posts.id AND agenda_postmeta.meta_key = "_wp_attached_file" ';
+		$agendas_sql .= 'LEFT OUTER JOIN wp_postmeta AS minutes_postmeta ON minutes_postmeta.post_id = minutes_posts.id AND minutes_postmeta.meta_key = "_wp_attached_file" ';
+		$agendas_sql .= 'ORDER BY display_date DESC ';
 
-		wp_enqueue_style( $this->agendas, plugin_dir_url( __FILE__ ) . 'css/agendas-public.css', array(), $this->version, 'all' );
+		global $wpdb;
 
-	}
+		$result = $wpdb->get_results( $agendas_sql,  OBJECT); 
+		$wrapped_result = new stdClass();
+		$wrapped_result->result = $result;
 
-	/**
-	 * Register the JavaScript for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
+		$m = new Mustache_Engine( array(
+			'loader' => new Mustache_Loader_FilesystemLoader(dirname( __FILE__ ) . '/views'),
+		));
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Agendas_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Agendas_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->agendas, plugin_dir_url( __FILE__ ) . 'js/agendas-public.js', array( 'jquery' ), $this->version, false );
-
+		$html = '<div class="wrap">';
+		$html .= $m->render('agendas_display', $wrapped_result) . "\n";
+		return $html;
 	}
 
 }
