@@ -41,7 +41,11 @@
 
 	$(document).on('ready', function() {
 
-		$('[name="new_agenda_date"]')[0].valueAsDate = new Date();
+        var new_agenda_date = $('[name="new_agenda_date"]');
+        if (new_agenda_date.length > 0) {
+            new_agenda_date[0].valueAsDate = new Date();
+
+        }
 
 		$('#new_agenda').click(function() {
 			var agenda;
