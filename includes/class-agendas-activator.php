@@ -23,9 +23,7 @@
 class Agendas_Activator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Create agenda table
 	 *
 	 * @since    1.0.0
 	 */

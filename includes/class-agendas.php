@@ -124,7 +124,7 @@ class Agendas {
 		 *
 		 */
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/mustache/src/Mustache/AutoLoader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/mustache/src/Mustache/Autoloader.php';
 		
 
 		$this->loader = new Agendas_Loader();

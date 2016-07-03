@@ -88,7 +88,7 @@ class Agendas_Admin {
             'minutes' => $minutes
         );
 
-        $wpdb->insert( 'wp_agendas', $insert );
+        $wpdb->insert( $wpdb->prefix .'agendas', $insert );
         echo '{agenda_date:'. $agenda_date . ', agenda: ' . $agenda . ', minutes: ' . $minutes . '}';
         wp_die();
     }
@@ -104,7 +104,7 @@ class Agendas_Admin {
 
         $agenda_id = $_POST['agenda_id'];
 
-        $wpdb->delete( 'wp_agendas', array(
+        $wpdb->delete( $wpdb->prefix .'agendas', array(
             'id' => $agenda_id
         ));
         wp_die();
@@ -116,15 +116,14 @@ class Agendas_Admin {
      * @since    1.0.1
      */
     public function output_content() {
+        global $wpdb;
         Mustache_Autoloader::register();
 
-        $agendas_sql = 'SELECT wp_agendas.id AS agenda_id, DATE_FORMAT(agenda_date, \'%Y-%m-%d\') as display_date, agenda_postmeta.meta_value AS agenda_file, minutes_postmeta.meta_value AS minutes_file FROM wp_agendas ';
-        $agendas_sql .= 'LEFT OUTER JOIN wp_posts AS agenda_posts ON agenda_posts.id = wp_agendas.agenda ';
-        $agendas_sql .= 'LEFT OUTER JOIN wp_posts AS minutes_posts ON minutes_posts.id = wp_agendas.minutes ';
-        $agendas_sql .= 'LEFT OUTER JOIN wp_postmeta AS agenda_postmeta ON agenda_postmeta.post_id = agenda_posts.id AND agenda_postmeta.meta_key = "_wp_attached_file" ';
-        $agendas_sql .= 'LEFT OUTER JOIN wp_postmeta AS minutes_postmeta ON minutes_postmeta.post_id = minutes_posts.id AND minutes_postmeta.meta_key = "_wp_attached_file" ';
-
-        global $wpdb;
+        $agendas_sql = 'SELECT ' . $wpdb->prefix . 'agendas.id AS agenda_id, DATE_FORMAT(agenda_date, \'%Y-%m-%d\') as display_date, agenda_postmeta.meta_value AS agenda_file, minutes_postmeta.meta_value AS minutes_file FROM ' . $wpdb->prefix . 'agendas ';
+        $agendas_sql .= 'LEFT OUTER JOIN ' . $wpdb->prefix . 'posts AS agenda_posts ON agenda_posts.id = '. $wpdb->prefix . 'agendas.agenda ';
+        $agendas_sql .= 'LEFT OUTER JOIN ' . $wpdb->prefix . 'posts AS minutes_posts ON minutes_posts.id = '. $wpdb->prefix . 'agendas.minutes ';
+        $agendas_sql .= 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS agenda_postmeta ON agenda_postmeta.post_id = agenda_posts.id AND agenda_postmeta.meta_key = "_wp_attached_file" ';
+        $agendas_sql .= 'LEFT OUTER JOIN ' . $wpdb->prefix . 'postmeta AS minutes_postmeta ON minutes_postmeta.post_id = minutes_posts.id AND minutes_postmeta.meta_key = "_wp_attached_file" ';
 
         $result = $wpdb->get_results( $agendas_sql,  OBJECT);
         $wrapped_result = new stdClass();
@@ -134,9 +133,10 @@ class Agendas_Admin {
             'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
         ));
 
+        $groups_table_name = $wpdb->prefix . 'groups';
         $html = '<div class="wrap form-horizontal">';
         $html .= $m->render('agendas_settings', $wrapped_result) . "\n";
-        $html .= '</div><br/><br/>';
+        $html .= '</div>';
         echo $html;
 
     }
