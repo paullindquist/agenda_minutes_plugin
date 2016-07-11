@@ -170,7 +170,7 @@ class Agendas_Admin {
          */
 
         wp_enqueue_style( $this->agendas, plugin_dir_url( __FILE__ ) . 'css/agendas-admin.css', array(), $this->version, 'all' );
-        wp_enqueue_style( $this->agendas . 'bootstrap', plugin_dir_url( __FILE__ ) . 'lib/bootstrap.min.css', array(), $this->version, 'all' );
+        //wp_enqueue_style( $this->agendas . 'bootstrap', plugin_dir_url( __FILE__ ) . 'lib/bootstrap.min.css', array(), $this->version, 'all' );
 
     }
 
