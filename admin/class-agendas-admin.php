@@ -147,7 +147,7 @@ class Agendas_Admin {
      * @since    1.0.1
      */
     public function add_menu_page() {
-        add_menu_page( 'Agendas', 'Agendas', 'manage_options', 'agendas_settings', array($this, 'output_content'), 'dashicons-book-alt', 6  );
+        add_menu_page( 'Agendas', 'Agendas', 'edit_posts', 'agendas_settings', array($this, 'output_content'), 'dashicons-book-alt', 6  );
     }
 
     /**
@@ -170,7 +170,7 @@ class Agendas_Admin {
          */
 
         wp_enqueue_style( $this->agendas, plugin_dir_url( __FILE__ ) . 'css/agendas-admin.css', array(), $this->version, 'all' );
-        //wp_enqueue_style( $this->agendas . 'bootstrap', plugin_dir_url( __FILE__ ) . 'lib/bootstrap.min.css', array(), $this->version, 'all' );
+        wp_enqueue_style( $this->agendas . 'bootstrap', plugin_dir_url( __FILE__ ) . 'lib/bootstrap.min.css', array(), $this->version, 'all' );
 
     }
 
